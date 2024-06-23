@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <thread>
-#include <chrono>
 #include <sstream>
 //loading sql library
 
@@ -14,7 +13,6 @@
 #include "Functionatlity.h"
 //add class SQLibrary
 
-using namespace std::chrono_literals;
 #define DEBUG_MEMORY 0
 
 #if DEBUG_MEMORY == 1 // DEBUG_MEMORY == 0 (tracking allocated memory)
@@ -31,25 +29,21 @@ void operator delete(void* ptr)
 }
 #endif
 
-//global variables
+//global variables (FOR SQL)
 MYSQL* conn;
 MYSQL_ROW row;
 MYSQL_RES* res;
 
-void SQLLibrary::addInformationBook() // TODO : make more functional
+int main(int argc, const char* argv[])
 {
-    if (mysql_query(conn, "SELECT * FROM library")) {
-        std::cerr << "SELECT * FROM your_table failed. Error: " << mysql_error(conn) << "\n";
-        mysql_close(conn);
-    }
-}
-
-int main(int argc , const char *argv[])
-{
-
-    int commutator;
-    char operator_return;
-    const char* author_book;
+    //main variables
+    int commutator = 0;
+    char operator_return = '\0';
+    int shelf_number = 0;
+    int book_id = 0;
+    std::string book_name;
+    std::string author_book;
+    std::string datatime;
    
     connection_details MySQLData;
 
@@ -79,7 +73,22 @@ int main(int argc , const char *argv[])
     switch (commutator)
     {
     case 1:
+        std::cout << "Write book id : ";
+        std::cin >> book_id;
+        std::cout << "Write shelf_id : ";
+        std::cin >> shelf_number;
+        std::cout << "Enter the name of the book : ";
+        std::cin.ignore(1, '\t');
+        std::getline(std::cin, book_name);
+        std::cout << "Enter the author of the book : ";
+        std::cin.ignore(1, '\t');
+        std::getline(std::cin, author_book);
+        std::cout << "Enter the name of the book : ";
+        std::cin.ignore(1, '\t');
+        std::getline(std::cin, datatime);
 
+        //access to sql query
+        addInformationBook(shelf_number, book_id, book_name, author_book, datatime , conn); // TODO : need fix connection
         break;
     case 2:
         system("CLS");

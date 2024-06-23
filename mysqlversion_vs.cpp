@@ -14,12 +14,10 @@
 #include "Functionatlity.h"
 //add class SQLibrary
 
-
-
 using namespace std::chrono_literals;
 #define DEBUG_MEMORY 0
 
-#if DEBUG_MEMORY == 1 // DEBUG_MEMORY == 0
+#if DEBUG_MEMORY == 1 // DEBUG_MEMORY == 0 (tracking allocated memory)
 void* operator new(size_t size)
 {
     std::cout << "Allocating " << size << " bytes of memory";
@@ -33,16 +31,25 @@ void operator delete(void* ptr)
 }
 #endif
 
+//global variables
+MYSQL* conn;
+MYSQL_ROW row;
+MYSQL_RES* res;
 
+void SQLLibrary::addInformationBook() // TODO : make more functional
+{
+    if (mysql_query(conn, "SELECT * FROM library")) {
+        std::cerr << "SELECT * FROM your_table failed. Error: " << mysql_error(conn) << "\n";
+        mysql_close(conn);
+    }
+}
 
 int main(int argc , const char *argv[])
 {
 
     int commutator;
     char operator_return;
-    MYSQL* conn;
-    MYSQL_ROW row;
-    MYSQL_RES* res;
+    const char* author_book;
    
     connection_details MySQLData;
 
@@ -72,8 +79,11 @@ int main(int argc , const char *argv[])
     switch (commutator)
     {
     case 1:
+
         break;
-    case 2:    
+    case 2:
+        system("CLS");
+        std::cout << "Goodbye! Catch you later" << std::endl;
         break;
     case 3:
         std::cout << "Display all information" << std::endl;

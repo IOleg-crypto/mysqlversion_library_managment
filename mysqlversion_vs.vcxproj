@@ -136,6 +136,7 @@
     <ClCompile Include="mysqlversion_vs.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Functionatlity.h" />
     <ClInclude Include="mysql_connect.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

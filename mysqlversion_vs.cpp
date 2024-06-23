@@ -8,7 +8,7 @@
 //structs
 #include "mysql_connect.h"
 
-#define DEBUG_MEMORY 0
+#define DEBUG_MEMORY 1
 
 #if DEBUG_MEMORY == 1 // DEBUG_MEMORY == 0
 void* operator new(size_t size)
@@ -40,20 +40,22 @@ int main(int argc , const char *argv[])
     MySQLData.user = "root";
     MySQLData.password = "";
 
-    conn = mysql_connection_setup(&MySQLData);
-    res = mysql_execute_query(conn, "select * from books.library;");
+    conn = mysql_connection_setup(MySQLData);
+    res = mysql_execute_query(conn, "select * from library;");
+    int num_fields = mysql_num_fields(res);
 
     std::cout << "Display all information" << std::endl;
 
-    while ((row = mysql_fetch_row(res)) != NULL)
-    {
-        std::cout << row[0] << "|" << row[1] << "|" << row[2] << "|" << row[3] << std::endl;
-
+    while ((row = mysql_fetch_row(res))) {
+        for (int i = 0; i < num_fields; i++) {
+            std::cout << (row[i] ? row[i] : "NULL") << " ";
+        }
         std::cout << std::endl;
     }
-
     mysql_free_result(res);
     mysql_close(conn);
+    
+    return EXIT_SUCCESS;
 
     
 

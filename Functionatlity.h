@@ -8,3 +8,15 @@ void drawline(int x, char symbol)
     }
     std::cout << std::endl;
 }
+
+class SQLLibrary
+{
+public:
+    void addBook() {}
+    void addAuthor() {}
+    void addShelf() {}
+    void getAuthor() {}
+    void getShelf() {}
+    void getBook() {}
+    void PrintBook() {}
+};

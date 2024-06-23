@@ -4,13 +4,16 @@
 #include <iostream>
 #include <thread>
 #include <chrono>
+#include <sstream>
 //loading sql library
 
 #include <Windows.h>
-//structs
+//structs sql
 #include "mysql_connect.h"
 //functionality header
 #include "Functionatlity.h"
+//add class SQLibrary
+
 
 
 using namespace std::chrono_literals;
@@ -50,7 +53,7 @@ int main(int argc , const char *argv[])
     MySQLData.password = "";
 
     //first action
-    drawline(133, '-');
+    drawline(130 , '-');
     std::cout << "\t\t\t\t\t\t\tWelcome to our library";
     std::cout << std::endl;
     std::cout << "\t\t\t\tSelection menu" << std::endl;
@@ -75,46 +78,45 @@ int main(int argc , const char *argv[])
     case 3:
         std::cout << "Display all information" << std::endl;
         while ((row = mysql_fetch_row(res))) {
+            std::ostringstream oss;
             for (int i = 0; i < num_fields; i++) {
-                std::cout << (row[i] ? row[i] : "NULL") << " ";
+                if (i > 0) {
+                    oss << "|" << "\t";
+                }
+                oss << (row[i] ? row[i] : "NULL");
             }
-            std::cout << std::endl;
+            std::cout << oss.str() << std::endl;
         }
         mysql_free_result(res);
         mysql_close(conn);
-        std::cout << "Do you want come back(y/n) : ";
-        std::cin >> operator_return;
-        while (operator_return != 'y' && operator_return != 'n')
-        {
-            std::cout << "Choose the correct option(y/n) : ";
-            std::cin >> operator_return;
-            if (operator_return == 'y')
-            {
-                continue;
-            }
-            else
-            {
-                return EXIT_SUCCESS;
-            }
-        }
-    default:
-        std::cout << "Choose the correct option!(1/2/3)" << std::endl;
-        std::cout << std::endl;
+       
     }
 
-    /*
-    while (commutator != 1  && commutator != 2 && commutator != 3)
+
+    std::cout << "Do you want come back at the beginning (y/n) :  ";
+    std::cin >> operator_return;
+
+    switch (operator_return)
     {
-        std::cout << "1 . Add new book to library" << std::endl;
-        std::cout << "2 . Exit" << std::endl;
-        std::cout << "3 . Show all books in library" << std::endl;
-        std::cout << "Choose the option :  ";
-        std::cin >> commutator;
-    }
-    */
-    std::this_thread::sleep_for(std::chrono::seconds(5));
+    case 'y':
+        system("CLS");
+        return main(argc, argv);
+        break;
+    case 'n':
+        std::cout << "See you next time! Goodbye";
+        exit(0);
+        break;
+    default:
+        std::cout << "Wrong input!" << std::endl;
 
-    ;
+        while (operator_return != 'n' && operator_return != 'y')
+        {
+            std::cout << " You've entered an invalid response. Please only select 'n', 'y'." << std::endl;
+            std::cout << "Do you want come back at the beginning (y/n) :  ";
+            std::cin >> operator_return;
+        }
+    }
+    
     
 
 }

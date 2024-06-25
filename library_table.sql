@@ -1,1 +1,2 @@
-select * from library;
+alter table library
+modify 

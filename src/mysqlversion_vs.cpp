@@ -16,13 +16,13 @@
 #define DEBUG_MEMORY 1
 
 #if DEBUG_MEMORY == 0 // DEBUG_MEMORY == 0 (tracking allocated memory)
-void* operator new(size_t size)
+void *operator new(size_t size)
 {
     std::cout << "Allocating " << size << " bytes of memory";
-    void* ptr = malloc(size);
+    void *ptr = malloc(size);
     return ptr;
 }
-void operator delete(void* ptr)
+void operator delete(void *ptr)
 {
     std::cout << "Freeing memory";
     free(ptr);
@@ -30,11 +30,12 @@ void operator delete(void* ptr)
 #endif
 
 // global variables (FOR SQL)
-MYSQL* conn;
+MYSQL *conn;
 MYSQL_ROW row;
-MYSQL_RES* res;
+MYSQL_RES *res;
 
-void addBook(MYSQL* conn) {
+void addBook(MYSQL *conn)
+{
     int shelf_number, book_id;
     std::string book_name, author_book, datatime;
 
@@ -54,13 +55,15 @@ void addBook(MYSQL* conn) {
     char check_query[256];
     snprintf(check_query, sizeof(check_query), "SELECT * FROM library WHERE name_id = %d", book_id);
 
-    if (mysql_real_query(conn, check_query, strlen(check_query)) != 0) {
+    if (mysql_real_query(conn, check_query, strlen(check_query)) != 0)
+    {
         std::cerr << "Check book_id failed. Error: " << mysql_error(conn) << "\n";
         return;
     }
 
-    MYSQL_RES* check_res = mysql_store_result(conn);
-    if (!check_res) {
+    MYSQL_RES *check_res = mysql_store_result(conn);
+    if (!check_res)
+    {
         std::cerr << "Check book_id result failed. Error: " << mysql_error(conn) << "\n";
         return;
     }
@@ -69,7 +72,8 @@ void addBook(MYSQL* conn) {
     int count = atoi(check_row[0]);
     mysql_free_result(check_res);
 
-    if (count > 0) {
+    if (count > 0)
+    {
         std::cout << "Book with ID " << book_id << " already exists. Please use a different ID.\n";
         return;
     }
@@ -77,20 +81,24 @@ void addBook(MYSQL* conn) {
     // Proceed with insertion if the book_id does not exist
     char parameter_table[512];
     snprintf(parameter_table, sizeof(parameter_table),
-        "INSERT INTO library (shelf_number, book_id, book_name, author_book, datetime) VALUES (%d, %d, '%s', '%s', '%s')",
-        shelf_number, book_id, book_name.c_str(), author_book.c_str(), datatime.c_str());
+             "INSERT INTO library (shelf_number, book_id, book_name, author_book, datetime) VALUES (%d, %d, '%s', '%s', '%s')",
+             shelf_number, book_id, book_name.c_str(), author_book.c_str(), datatime.c_str());
 
-    if (mysql_real_query(conn, parameter_table, strlen(parameter_table)) != 0) {
+    if (mysql_real_query(conn, parameter_table, strlen(parameter_table)) != 0)
+    {
         std::cerr << "INSERT INTO library failed. Error: " << mysql_error(conn) << "\n";
     }
-    else {
+    else
+    {
         std::cout << "Record inserted successfully.\n";
     }
 }
 
-void showAllBooks(MYSQL_RES* res) {
+void showAllBooks(MYSQL_RES *res)
+{
     res = mysql_execute_query(conn, "SELECT * FROM library;");
-    if (!res) {
+    if (!res)
+    {
         std::cerr << "SELECT * FROM library failed. Error: " << mysql_error(conn) << "\n";
         return;
     }
@@ -99,20 +107,27 @@ void showAllBooks(MYSQL_RES* res) {
 
     // Print table header
     std::cout << std::left << std::setw(15) << "Shelf Number"
-        << std::left << std::setw(10) << "Book ID"
-        << std::left << std::setw(30) << "Book Name"
-        << std::left << std::setw(30) << "Author Book"
-        << std::left << std::setw(20) << "Datetime" << std::endl;
+              << std::left << std::setw(10) << "Book ID"
+              << std::left << std::setw(30) << "Book Name"
+              << std::left << std::setw(30) << "Author Book"
+              << std::left << std::setw(20) << "Datetime" << std::endl;
     drawline(105, '-'); // Adjust this according to the total width of the table
 
     // Print table rows
-    while ((row = mysql_fetch_row(res))) {
-        for (int i = 0; i < num_fields; i++) {
-            if (i == 0) std::cout << std::left << std::setw(15) << (row[i] ? row[i] : "NULL");
-            else if (i == 1) std::cout << std::left << std::setw(10) << (row[i] ? row[i] : "NULL");
-            else if (i == 2) std::cout << std::left << std::setw(30) << (row[i] ? row[i] : "NULL");
-            else if (i == 3) std::cout << std::left << std::setw(30) << (row[i] ? row[i] : "NULL");
-            else if (i == 4) std::cout << std::left << std::setw(20) << (row[i] ? row[i] : "NULL");
+    while ((row = mysql_fetch_row(res)))
+    {
+        for (int i = 0; i < num_fields; i++)
+        {
+            if (i == 0)
+                std::cout << std::left << std::setw(15) << (row[i] ? row[i] : "NULL");
+            else if (i == 1)
+                std::cout << std::left << std::setw(10) << (row[i] ? row[i] : "NULL");
+            else if (i == 2)
+                std::cout << std::left << std::setw(30) << (row[i] ? row[i] : "NULL");
+            else if (i == 3)
+                std::cout << std::left << std::setw(30) << (row[i] ? row[i] : "NULL");
+            else if (i == 4)
+                std::cout << std::left << std::setw(20) << (row[i] ? row[i] : "NULL");
         }
         std::cout << std::endl;
     }
@@ -120,7 +135,8 @@ void showAllBooks(MYSQL_RES* res) {
     drawline(105, '-'); // Adjust this according to the total width of the table
 }
 
-void takeBook(MYSQL* conn) {
+void takeBook(MYSQL *conn)
+{
     int book_id;
     std::cout << "Enter the ID of the book to take: ";
     std::cin >> book_id;
@@ -128,15 +144,17 @@ void takeBook(MYSQL* conn) {
     char query[256];
     snprintf(query, sizeof(query), "DELETE FROM library WHERE name_id = %d", book_id);
 
-    if (mysql_real_query(conn, query, strlen(query)) != 0) {
+    if (mysql_real_query(conn, query, strlen(query)) != 0)
+    {
         std::cerr << "DELETE FROM library failed. Error: " << mysql_error(conn) << "\n";
     }
-    else {
+    else
+    {
         std::cout << "Book with ID " << book_id << " has been taken (deleted) successfully.\n";
     }
 }
 
-int main(int argc, const char* argv[])
+int main(int argc, const char *argv[])
 {
     connection_details MySQLData;
     MySQLData.database = "books";
@@ -145,13 +163,15 @@ int main(int argc, const char* argv[])
     MySQLData.password = "";
 
     conn = mysql_connection_setup(MySQLData);
-    if (!conn) {
+    if (!conn)
+    {
         std::cerr << "Connection to database failed. Error: " << mysql_error(conn) << "\n";
         return EXIT_FAILURE;
     }
 
     bool running = true;
-    while (running) {
+    while (running)
+    {
         displayMenu();
 
         int commutator;
@@ -178,12 +198,14 @@ int main(int argc, const char* argv[])
             break;
         }
 
-        if (running) {
+        if (running)
+        {
             char operator_return;
             std::cout << "Do you want to come back to the beginning (y/n): ";
             std::cin >> operator_return;
 
-            if (operator_return == 'n') {
+            if (operator_return == 'n')
+            {
                 std::cout << "See you next time! Goodbye" << std::endl;
                 running = false;
             }

@@ -1,0 +1,17 @@
+{
+  "configurations": [
+    {
+      "name": "Win32",
+      "includePath": [
+        "${default}",
+        "C:\\Program Files\\MySQL\\mysql-connector-c++-8.4.0-winx64\\lib64\\",
+        "C:\\Program Files\\MySQL\\mysql-connector-c++-8.4.0-winx64\\include",
+        "C:\\Program Files\\MySQL\\MySQL Server 8.0\\lib",
+        "C:\\Program Files\\MySQL\\MySQL Server 8.0\\include"
+      ],
+      "defines": ["_DEBUG", "UNICODE", "_UNICODE"],
+      "windowsSdkVersion": "10.0.22000.0"
+    }
+  ],
+  "version": 4
+}

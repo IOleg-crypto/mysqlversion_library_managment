@@ -1,0 +1,26 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "compiler",
+      "type": "shell",
+      "command": "g++", // <-- changed
+      "args": [
+        "all",
+        "-IC:\\Program Files\\MySQL\\mysql-connector-c++-8.4.0-winx64\\include"
+      ] // <-- changed
+    }
+  ],
+  
+    "label": "Build HelloSDL",
+    "dependsOn": [
+        "compiler"
+    ],
+  "group": {
+    "kind": "build",
+    "isDefault": true
+  },
+  "problemMatcher": "$gcc"
+}

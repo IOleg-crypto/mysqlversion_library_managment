@@ -5,7 +5,7 @@
 #include <sstream>
 #include <cstdio>
 #include <iomanip>
-// loading sql library
+// loading sql libraryp
 #include <Windows.h>
 // structs sql
 #include "mysql_connect.h"
@@ -16,13 +16,13 @@
 #define DEBUG_MEMORY 1
 
 #if DEBUG_MEMORY == 0 // DEBUG_MEMORY == 0 (tracking allocated memory)
-void* operator new(size_t size)
+void *operator new(size_t size)
 {
     std::cout << "Allocating " << size << " bytes of memory";
-    void* ptr = malloc(size);
+    void *ptr = malloc(size);
     return ptr;
 }
-void operator delete(void* ptr)
+void operator delete(void *ptr)
 {
     std::cout << "Freeing memory";
     free(ptr);
@@ -30,11 +30,11 @@ void operator delete(void* ptr)
 #endif
 
 // global variables (FOR SQL)
-MYSQL* conn;
+MYSQL *conn;
 MYSQL_ROW row;
-MYSQL_RES* res;
+MYSQL_RES *res;
 
-void addBook(MYSQL* conn)
+void addBook(MYSQL *conn)
 {
     int shelf_number, book_id;
     std::string book_name, author_book, datatime;
@@ -61,7 +61,7 @@ void addBook(MYSQL* conn)
         return;
     }
 
-    MYSQL_RES* check_res = mysql_store_result(conn);
+    MYSQL_RES *check_res = mysql_store_result(conn);
     if (!check_res)
     {
         std::cerr << "Check book_id result failed. Error: " << mysql_error(conn) << "\n";
@@ -81,8 +81,8 @@ void addBook(MYSQL* conn)
     // Proceed with insertion if the book_id does not exist
     char parameter_table[512];
     snprintf(parameter_table, sizeof(parameter_table),
-        "INSERT INTO library (shelf_number, book_id, book_name, author_book, datetime) VALUES (%d, %d, '%s', '%s', '%s')",
-        shelf_number, book_id, book_name.c_str(), author_book.c_str(), datatime.c_str());
+             "INSERT INTO library (shelf_number, book_id, book_name, author_book, datetime) VALUES (%d, %d, '%s', '%s', '%s')",
+             shelf_number, book_id, book_name.c_str(), author_book.c_str(), datatime.c_str());
 
     if (mysql_real_query(conn, parameter_table, strlen(parameter_table)) != 0)
     {
@@ -94,7 +94,7 @@ void addBook(MYSQL* conn)
     }
 }
 
-void showAllBooks(MYSQL_RES* res)
+void showAllBooks(MYSQL_RES *res)
 {
     res = mysql_execute_query(conn, "SELECT * FROM library;");
     if (!res)
@@ -107,10 +107,10 @@ void showAllBooks(MYSQL_RES* res)
 
     // Print table header
     std::cout << std::left << std::setw(15) << "Shelf Number"
-        << std::left << std::setw(10) << "Book ID"
-        << std::left << std::setw(30) << "Book Name"
-        << std::left << std::setw(30) << "Author Book"
-        << std::left << std::setw(20) << "Datetime" << std::endl;
+              << std::left << std::setw(10) << "Book ID"
+              << std::left << std::setw(30) << "Book Name"
+              << std::left << std::setw(30) << "Author Book"
+              << std::left << std::setw(20) << "Datetime" << std::endl;
     drawline(105, '-'); // Adjust this according to the total width of the table
 
     // Print table rows
@@ -135,7 +135,7 @@ void showAllBooks(MYSQL_RES* res)
     drawline(105, '-'); // Adjust this according to the total width of the table
 }
 
-void takeBook(MYSQL* conn)
+void takeBook(MYSQL *conn)
 {
     int book_id;
     std::cout << "Enter the ID of the book to take: ";
@@ -154,7 +154,7 @@ void takeBook(MYSQL* conn)
     }
 }
 
-int main(int argc, const char* argv[])
+int main(int argc, const char *argv[])
 {
     connection_details MySQLData;
     MySQLData.database = "books";

@@ -58,4 +58,10 @@ Use `CTRL + SHIFT + B` or `CTRL + SHIFT + P` -> Run Build Task
 
 ![C_CPP_Properties](image-1.png)
 
+After that you may be able to run **mysqlversion_vs.exe**
+
+```sh
+start mysqlversion_vs.exe
+```
+
 Replace `"username"`, `"password"`, and `"database_name"` with your actual MySQL credentials and database name in the sample code.

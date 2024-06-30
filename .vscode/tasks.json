@@ -1,26 +1,33 @@
 {
-  // See https://go.microsoft.com/fwlink/?LinkId=733558
-  // for the documentation about the tasks.json format
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "compiler",
-      "type": "shell",
-      "command": "g++", // <-- changed
+      "type": "cppbuild",
+      "label": "C/C++: g++.exe сборка активного файла",
+      "command": "C:\\msys64\\mingw64\\bin\\g++.exe",
       "args": [
-        "all",
-        "-IC:\\Program Files\\MySQL\\mysql-connector-c++-8.4.0-winx64\\include"
-      ] // <-- changed
+        "-fdiagnostics-color=always",
+        "-g",
+        "${file}",
+        "-o",
+        "${fileDirname}\\${fileBasenameNoExtension}.exe",
+        "-Wall",
+        "-Werror",
+        "-I",
+        "C:\\Program Files\\MySQL\\MySQL Server 8.0\\include",
+        "-L",
+        "C:\\Program Files\\MySQL\\MySQL Server 8.0\\lib",
+        "-lmysql"
+      ],
+      "options": {
+        "cwd": "${fileDirname}"
+      },
+      "problemMatcher": ["$gcc"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "detail": "компилятор: C:\\msys64\\mingw64\\bin\\g++.exe"
     }
-  ],
-  
-    "label": "Build HelloSDL",
-    "dependsOn": [
-        "compiler"
-    ],
-  "group": {
-    "kind": "build",
-    "isDefault": true
-  },
-  "problemMatcher": "$gcc"
+  ]
 }

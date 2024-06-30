@@ -1,6 +1,7 @@
 #pragma once
+
 #include <mysql.h>
-#include <iostream>
+
 struct connection_details
 {
     const char* server;

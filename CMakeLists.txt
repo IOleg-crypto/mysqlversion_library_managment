@@ -12,12 +12,29 @@ link_directories("C:\\Program Files\\MySQL\\MySQL Server 8.0\\lib")
 #target_link_libraries(${PROJECT_NAME} "C:\\Program Files\\MySQL\\mysql-connector-c++-8.4.0-winx64\\lib64\\mysqlcppconn.dll")
 #target_link_libraries(${PROJECT_NAME} "C:\\Program Files\\MySQL\\MySQL Server 8.0\\lib\\libmysql.dll")
 
-find_library(MYSQLCPPCONN_LIB NAMES mysqlcppconn PATHS "C:/Program Files/MySQL/mysql-connector-c++-8.4.0-winx64/lib64")
-find_library(MYSQL_LIB NAMES libmysql PATHS "C:/Program Files/MySQL/MySQL Server 8.0/lib")
+# Define imported libraries
+add_library(mysqlcppconn STATIC IMPORTED GLOBAL)
+add_library(libmysql STATIC IMPORTED GLOBAL)
+
+# Set properties for the imported libraries
+set_target_properties(mysqlcppconn PROPERTIES
+    IMPORTED_LOCATION "${MYSQLCPPCONN_LIB}"
+    IMPORTED_LINK_INTERFACE_LANGUAGES "CXX"
+)
+
+set_target_properties(libmysql PROPERTIES
+    IMPORTED_LOCATION "${MYSQL_LIB}"
+    IMPORTED_LINK_INTERFACE_LANGUAGES "CXX"
+)
+
+set_target_properties(libmysql PROPERTIES
+    IMPORTED_IMPLIB "${MYSQL_LIB}"
+    IMPORTED_LOCATION "C:/Program Files/MySQL/MySQL Server 8.0/lib/libmysql.dll"
+    IMPORTED_LINK_INTERFACE_LANGUAGES "CXX"
+)
 
 # Link libraries to the project
-target_link_libraries(MySQLLibrary C:/Program Files/MySQL/MySQL Server 8.0/lib/libmysql.lib C:/Program Files/MySQL/mysql-connector-c++-8.4.0-winx64/lib64/libmysqlcppconn.lib)
-
+target_link_libraries(${PROJECT_NAME} mysqlcppconn libmysql)
 
 
 #set_target_properties(MySQLLibrary PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON IMPORTED_LOCATION "C:\\Program Files\\MySQL\\mysql-connector-c++-8.4.0-winx64\\lib64\\libmysqlcppconn.lib") 

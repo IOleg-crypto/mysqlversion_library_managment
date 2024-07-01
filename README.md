@@ -64,4 +64,18 @@ After that you may be able to run **mysqlversion_vs.exe**
 start mysqlversion_vs.exe
 ```
 
+# CMake
+
+**To compile**
+
+'''sh
+cd mysqlversion_vs
+cmake .
+cd build
+make
+'''
+!Don\*t forget `libmysql.dll`(without .dll the program will not start)
+
+![alt text](image-2.png)
+
 Replace `"username"`, `"password"`, and `"database_name"` with your actual MySQL credentials and database name in the sample code.

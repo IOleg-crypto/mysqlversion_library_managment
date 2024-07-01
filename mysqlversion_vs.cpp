@@ -13,6 +13,9 @@
 #include "Functionatlity.h"
 // add class SQLibrary
 
+#pragma comment(lib, "mysqlcppconn.lib")
+#pragma comment(lib, "libmysql.lib")
+
 #define DEBUG_MEMORY 1
 
 #if DEBUG_MEMORY == 0 // DEBUG_MEMORY == 0 (tracking allocated memory)

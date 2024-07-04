@@ -1382,6 +1382,18 @@
 			"value" : "D:/gitnext/mysqlversion_vs/build"
 		},
 		{
+			"name" : "MySQLLibrary_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "The directory containing a CMake configuration file for MySQLLibrary."
+				}
+			],
+			"type" : "PATH",
+			"value" : "MySQLLibrary_DIR-NOTFOUND"
+		},
+		{
 			"name" : "MySQLLibrary_IS_TOP_LEVEL",
 			"properties" : 
 			[

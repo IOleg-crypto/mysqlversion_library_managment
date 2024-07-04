@@ -9,10 +9,6 @@ include_directories("C:\\Program Files\\MySQL\\MySQL Server 8.0\\include")
 link_directories("C:\\Program Files\\MySQL\\mysql-connector-c++-8.4.0-winx64\\lib64")
 link_directories("C:\\Program Files\\MySQL\\MySQL Server 8.0\\lib")
 
-#target_link_libraries(${PROJECT_NAME} "C:\\Program Files\\MySQL\\mysql-connector-c++-8.4.0-winx64\\lib64\\mysqlcppconn.dll")
-#target_link_libraries(${PROJECT_NAME} "C:\\Program Files\\MySQL\\MySQL Server 8.0\\lib\\libmysql.dll")
-
-# Define imported libraries
 add_library(mysqlcppconn STATIC IMPORTED GLOBAL)
 add_library(libmysql STATIC IMPORTED GLOBAL)
 
@@ -35,10 +31,8 @@ set_target_properties(libmysql PROPERTIES
 
 # Link libraries to the project
 target_link_libraries(${PROJECT_NAME} mysqlcppconn libmysql)
-
-
-#set_target_properties(MySQLLibrary PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON IMPORTED_LOCATION "C:\\Program Files\\MySQL\\mysql-connector-c++-8.4.0-winx64\\lib64\\libmysqlcppconn.lib") 
-#set_target_properties(MySQLLibrary PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON IMPORTED_LOCATION "C:\\Program Files\\MySQL\\MySQL Server 8.0\\lib\\libmysql.lib")
+# Link libraries to the project
+target_link_libraries(${PROJECT_NAME} mysqlcppconn libmysql)
 
 if (MSVC)
     # warning level 4
@@ -47,3 +41,10 @@ else()
     # additional warnings
     add_compile_options(-Wall -Wextra -Wpedantic -Werror)
 endif()
+
+# Specify the C++ standard (optional, but recommended)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Ensure Visual Studio generates solution files
+set(CMAKE_GENERATOR "Visual Studio 17 2022" CACHE STRING "CMake generator")

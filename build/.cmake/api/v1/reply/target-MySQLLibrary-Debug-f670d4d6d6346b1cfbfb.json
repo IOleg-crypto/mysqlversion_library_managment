@@ -35,7 +35,7 @@
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 37,
+				"line" : 33,
 				"parent" : 0
 			},
 			{
@@ -91,6 +91,16 @@
 			{
 				"fragment" : "",
 				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "\"C:/Program Files/MySQL/mysql-connector-c++-8.4.0-winx64/lib64/vs14/mysqlcppconn.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "\"C:/Program Files/MySQL/MySQL Server 8.0/lib/libmysql.dll\"",
+				"role" : "libraries"
 			},
 			{
 				"backtrace" : 2,

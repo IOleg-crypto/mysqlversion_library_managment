@@ -74,7 +74,7 @@ cmake .
 cd build
 make
 '''
-!Don\*t forget `libmysql.dll`(without .dll the program will not start)
+!Don't forget `libmysql.dll`(without .dll the program will not start)
 
 ![alt text](image-2.png)
 

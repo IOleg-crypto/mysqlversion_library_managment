@@ -95,6 +95,8 @@ MySQLLibrary.exe: CMakeFiles/MySQLLibrary.dir/mysqlversion_vs.cpp.obj
 MySQLLibrary.exe: CMakeFiles/MySQLLibrary.dir/build.make
 MySQLLibrary.exe: C:/Program\ Files/MySQL/mysql-connector-c++-8.4.0-winx64/lib64/vs14/mysqlcppconn.lib
 MySQLLibrary.exe: C:/Program\ Files/MySQL/MySQL\ Server\ 8.0/lib/libmysql.dll
+MySQLLibrary.exe: C:/Program\ Files/MySQL/mysql-connector-c++-8.4.0-winx64/lib64/vs14/mysqlcppconn.lib
+MySQLLibrary.exe: C:/Program\ Files/MySQL/MySQL\ Server\ 8.0/lib/libmysql.dll
 MySQLLibrary.exe: CMakeFiles/MySQLLibrary.dir/linkLibs.rsp
 MySQLLibrary.exe: CMakeFiles/MySQLLibrary.dir/objects1.rsp
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=D:/gitnext/mysqlversion_vs/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable MySQLLibrary.exe"

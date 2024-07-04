@@ -265,6 +265,9 @@ MYSQL_LIB:FILEPATH=C:/Program Files/MySQL/MySQL Server 8.0/lib/libmysql.lib
 //Value Computed by CMake
 MySQLLibrary_BINARY_DIR:STATIC=D:/gitnext/mysqlversion_vs/build
 
+//The directory containing a CMake configuration file for MySQLLibrary.
+MySQLLibrary_DIR:PATH=MySQLLibrary_DIR-NOTFOUND
+
 //Value Computed by CMake
 MySQLLibrary_IS_TOP_LEVEL:STATIC=ON
 

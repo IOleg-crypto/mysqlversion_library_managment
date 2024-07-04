@@ -51,7 +51,7 @@ void addBook(MYSQL *conn)
     std::getline(std::cin, book_name);
     std::cout << "Enter the author of the book: ";
     std::getline(std::cin, author_book);
-    std::cout << "Enter the datetime (YYYY-MM-DD): ";
+    std::cout << "Enter the datetime (YEAR-MONTH-DAY): ";
     std::getline(std::cin, datatime);
 
     // Check if the book_id already exists in the table

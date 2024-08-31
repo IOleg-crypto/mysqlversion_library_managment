@@ -1,17 +1,26 @@
 #pragma once
-
-#include "mysqlversion_vs.cpp"
+#include <iostream> // Required for std::cout
+#include <cstdlib>  // Required for malloc and free
 
 #if DEBUG_MEMORY == 0 // DEBUG_MEMORY == 0 (tracking allocated memory)
-void *operator new(size_t size)
-{
-    std::cout << "Allocating " << size << " bytes of memory";
-    void *ptr = malloc(size);
+
+void* operator new(size_t size) {
+    std::cout << "Allocating " << size << " bytes of memory" << std::endl;
+    void* ptr = malloc(size);
+    if (!ptr) {
+        // It's good practice to handle allocation failure
+        std::cerr << "Memory allocation failed" << std::endl;
+        throw std::bad_alloc(); // Standard way to handle allocation failure in C++
+    }
     return ptr;
 }
-void operator delete(void *ptr)
-{
-    std::cout << "Freeing memory";
-    free(ptr);
+
+void operator delete(void* ptr) noexcept { // noexcept to match the standard delete signature
+    if (ptr) {
+        std::cout << "Freeing memory" << std::endl;
+        free(ptr);
+    }
 }
-#endif
+
+#endif // DEBUG_MEMORY == 0
+

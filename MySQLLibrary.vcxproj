@@ -320,7 +320,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\gitnext\mysqlversion_vs\mysql_connect.h" />
     <None Include="D:\gitnext\mysqlversion_vs\library_table.sql">
     </None>
-    <ClInclude Include="D:\gitnext\mysqlversion_vs\Functionatlity.h" />
+    <ClInclude Include="D:\gitnext\mysqlversion_vs\checkmemory.h" />
     <ClCompile Include="D:\gitnext\mysqlversion_vs\mysqlversion_vs.cpp" />
   </ItemGroup>
   <ItemGroup>

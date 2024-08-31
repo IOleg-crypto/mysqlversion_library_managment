@@ -1,4 +1,8 @@
 {
   "C_Cpp.errorSquiggles": "enabled",
-  "cmake.ignoreCMakeListsMissing": true
+  "cmake.ignoreCMakeListsMissing": true,
+  "files.associations": {
+    "*.html": "html",
+    "iostream": "cpp"
+  }
 }

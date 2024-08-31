@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.11)
 project(MySQLLibrary VERSION 1.0.0)
 
-add_executable(${PROJECT_NAME} mysql_connect.h library_table.sql Functionatlity.h mysqlversion_vs.cpp)
+add_executable(${PROJECT_NAME} mysql_connect.h library_table.sql checkmemory.h mysqlversion_vs.cpp)
 
 include_directories("C:\\Program Files\\MySQL\\mysql-connector-c++-8.4.0-winx64\\include")
 include_directories("C:\\Program Files\\MySQL\\MySQL Server 8.0\\include")

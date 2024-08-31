@@ -9,7 +9,7 @@
     <ClInclude Include="D:\gitnext\mysqlversion_vs\mysql_connect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\gitnext\mysqlversion_vs\Functionatlity.h">
+    <ClInclude Include="D:\gitnext\mysqlversion_vs\checkmemory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

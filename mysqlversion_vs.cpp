@@ -5,13 +5,15 @@
 #include <sstream>
 #include <cstdio>
 #include <iomanip>
+#include <memory>
 // loading sql library
 #include <Windows.h>
 // structs sql
 #include "mysql_connect.h"
 // add class SQLibrary
-
-#define DEBUG_MEMORY 1
+#include "checkmemory.h"
+// allocating memory and check it
+#define DEBUG_MEMORY 0
 
 void drawline(int x, char symbol)
 {
@@ -39,7 +41,7 @@ void displayMenu()
 void addBook(MYSQL *conn)
 {
     int shelf_number;
-    std::string book_name, author_book, datetime;
+    std::string book_name, author_name_book, datetime;
 
     std::cout << "Write shelf_number: ";
     std::cin >> shelf_number;
@@ -47,7 +49,7 @@ void addBook(MYSQL *conn)
     std::cout << "Enter the name of the book: ";
     std::getline(std::cin, book_name);
     std::cout << "Enter the author of the book: ";
-    std::getline(std::cin, author_book);
+    std::getline(std::cin, author_name_book);
     std::cout << "Enter the datetime (YYYY-MM-DD): ";
     std::getline(std::cin, datetime);
 
@@ -80,8 +82,8 @@ void addBook(MYSQL *conn)
     // Proceed with insertion if the book_name does not exist
     char parameter_table[512];
     snprintf(parameter_table, sizeof(parameter_table),
-             "INSERT INTO library (shelf_number, book_name, author_book, TimeAddBook) VALUES (%d, '%s', '%s', '%s')",
-             shelf_number, book_name.c_str(), author_book.c_str(), datetime.c_str());
+             "INSERT INTO library (shelf_number, book_name, author_name_book, TimeAddBook) VALUES (%d, '%s', '%s', '%s')",
+             shelf_number, book_name.c_str(), author_name_book.c_str(), datetime.c_str());
 
     if (mysql_real_query(conn, parameter_table, strlen(parameter_table)) != 0)
     {
@@ -105,8 +107,9 @@ void showAllBooks(MYSQL_RES *res, MYSQL *conn, MYSQL_ROW row)
     int num_fields = mysql_num_fields(res);
 
     // Print table header
-    std::cout << std::left << std::setw(15) << "Shelf Number"
-              << std::left << std::setw(30) << "Book Name"
+    std::cout << std::left << std::setw(15) << "ID book"
+              << std::left << std::setw(15) << "Shelf Number"
+              << std::left << std::setw(15) << "Book Name"
               << std::left << std::setw(30) << "Author Book"
               << std::left << std::setw(20) << "Datetime" << std::endl;
     drawline(105, '-'); // Adjust this according to the total width of the table
@@ -121,8 +124,10 @@ void showAllBooks(MYSQL_RES *res, MYSQL *conn, MYSQL_ROW row)
             else if (i == 1)
                 std::cout << std::left << std::setw(30) << (row[i] ? row[i] : "NULL");
             else if (i == 2)
-                std::cout << std::left << std::setw(30) << (row[i] ? row[i] : "NULL");
+                std::cout << std::left << std::setw(40) << (row[i] ? row[i] : "NULL");
             else if (i == 3)
+                std::cout << std::left << std::setw(20) << (row[i] ? row[i] : "NULL");
+            else if (i == 4)
                 std::cout << std::left << std::setw(20) << (row[i] ? row[i] : "NULL");
         }
         std::cout << std::endl;

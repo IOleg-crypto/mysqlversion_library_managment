@@ -49,57 +49,106 @@ This project demonstrates how to connect to a MySQL database using C++ and the M
 
 Use `CTRL + SHIFT + B` or `CTRL + SHIFT + P` -> Run Build Task
 
-# Tasks.json (_Complier args_)
+#### Tasks.json (_Compiler arguments_)
 
-![Tasks.json](image.png)
+```json
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "g++",
+            "args": [
+                "-o", "mysqlversion_vs.exe",
+                "mysqlversion_vs.cpp",
+                "mysql_connect.cpp",
+                "-I",
+                "C:/Program Files/MySQL/MySQL Server 8.0/include",
+                "-L",
+                "C:/Program Files/MySQL/MySQL Server 8.0/lib",
+                "-lmysql"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Generated task for building MySQL Connector C++ project"
+        }
+    ]
+}
+```
 
-# c*cpp_properties(\_Include path*)
+#### C_CPP_Properties (_Include Path_)
 
-![C_CPP_Properties](image-1.png)
+```json
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "C:/Program Files/MySQL/MySQL Server 8.0/include"
+            ],
+            "defines": [],
+            "intelliSenseMode": "gcc-x86",
+            "compilerPath": "C:/msys64/mingw64/bin/g++.exe",
+            "cStandard": "c11",
+            "cppStandard": "c++17"
+        }
+    ],
+    "version": 4
+}
+```
 
-After that you may be able to run **mysqlversion_vs.exe**
+After configuring, you should be able to run `mysqlversion_vs.exe`:
 
-```sh
+```bash
 start mysqlversion_vs.exe
 ```
 
 or
 
-```sh
+```bash
 ./mysqlversion_vs.exe
 ```
 
+### CMake
 
-# CMake
+**To compile with CMake:**
 
-**To compile**
+1. Open your terminal and navigate to the project directory:
+   ```bash
+   cd mysqlversion_vs
+   ```
 
-'''sh
-cd mysqlversion_vs
-cmake .
-cd build
-make
-'''
-!Don't forget `libmysql.dll`(without .dll the program will not start)
+2. Run CMake to generate build files:
+   ```bash
+   cmake .
+   ```
 
-![alt text](image-2.png)
+3. Create a build directory and compile:
+   ```bash
+   cd build
+   make
+   ```
 
-# WAF build/complie
+**Important:**
+- Ensure that `libmysql.dll` is in the same directory as the executable or in a directory included in the system PATH. Without `libmysql.dll`, the program will not start.
 
-Documentation for WAF [Documentation](https://waf.io/book/#_introduction)
-![alt text](image-3.png)
+### WAF Build/Compile
 
-To install WAF
-[Github](https://github.com/ArduPilot/waf)
+For building with WAF, refer to the official [WAF Documentation](https://waf.io/book/#_introduction).
 
-To complie project
+**To install WAF:**
+- Visit the WAF [GitHub repository](https://github.com/ArduPilot/waf) for installation instructions.
 
-```sh
+**To compile the project using WAF:**
+
+```bash
 bash waf_script.sh
 ```
 
-![alt text](image-4.png)
+### After Compiling the Project
 
-Replace `"username"`, `"password"`, and `"database_name"` with your actual MySQL credentials and database name in the sample code.
-
-
+Once the project is compiled successfully, ensure you replace the `"username"`, `"password"`, and `"database_name"` in the sample code with your actual MySQL credentials and database name.

@@ -9,6 +9,7 @@
         "-fdiagnostics-color=always",
         "-g",
         "${file}",
+        "mysql_connect.cpp",
         "-o",
         "${fileDirname}\\${fileBasenameNoExtension}.exe",
         "-Wall",

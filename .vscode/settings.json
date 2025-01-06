@@ -3,6 +3,7 @@
   "cmake.ignoreCMakeListsMissing": true,
   "files.associations": {
     "*.html": "html",
-    "iostream": "cpp"
+    "iostream": "cpp",
+    "iomanip": "cpp"
   }
 }

@@ -1,6 +1,8 @@
-#pragma once
-#include <iostream> // Required for std::cout
-#include <cstdlib>  // Required for malloc and free
+#ifndef CHECKMEMORY_H
+#define CHECKMEMORY_H
+
+#include <iostream> 
+#include <cstdlib>  
 
 #if DEBUG_MEMORY == 0 // DEBUG_MEMORY == 0 (tracking allocated memory)
 

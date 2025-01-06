@@ -1,33 +1,24 @@
-#pragma once
+#ifndef MYSQL_CONNECT_H
+#define MYSQL_CONNECT_H
+// main functions
 
 #include <mysql.h>
+#include <iostream>
+#include <windows.h>
 
 struct connection_details
 {
-    const char* server;
-    const char* user;
-    const char* password;
-    const char* database;
+    const char *server;
+    const char *user;
+    const char *password;
+    const char *database;
 };
+MYSQL *mysql_connection_setup(const connection_details &mylibrary_details);
+MYSQL_RES *mysql_execute_query(MYSQL *connection, const char *sql_query);
+void addBook(MYSQL *conn);
+void showAllBooks(MYSQL_RES *res, MYSQL *conn, MYSQL_ROW row);
+void takeBook(MYSQL *conn);
+void drawline(int x, char symbol);
+void LoadDLL(void (*FunctionType)()); // unused
 
-MYSQL* mysql_connection_setup(connection_details mylibrary_details)
-{
-    MYSQL* connection = mysql_init(NULL);
-    if (!mysql_real_connect(connection , mylibrary_details.server , mylibrary_details.user , mylibrary_details.password , mylibrary_details.database , 0 , NULL , 0 ))
-    {
-        std::cout << "Connection failed " << mysql_error(connection) << std::endl;
-        mysql_close(connection);
-    }
-    return connection;
-};
-MYSQL_RES* mysql_execute_query(MYSQL *connection , const char *sql_query)
-{
-    if (mysql_query(connection, sql_query))
-    {
-        std::cout << "MYSQL query error " << mysql_error(connection) << std::endl;
-        mysql_close(connection);
-    }
-    return mysql_use_result(connection);
-}
-
-
+#endif

@@ -1,16 +1,21 @@
 // mysqlversion_vs.cpp : This file contains the 'main' function. Program execution begins and ends there.
 
+#include <cstdlib>
 #include <iostream>
 #include <cstdio>
 // loading sql library
 
 #include <Windows.h>
 #include <libloaderapi.h>
+#include <processenv.h>
+#include <winbase.h>
 #include "mysql_connect.h"
 
 #define DEBUG_MEMORY 0
 
-typedef void (*AddFunctionPtr)();  // Define a function pointer type for the function you want to load
+
+typedef void (*AddFunctionPtr)();
+  // Define a function pointer type for the function you want to load
 
 void drawline(int x, char symbol)
 {
@@ -24,7 +29,7 @@ void drawline(int x, char symbol)
 void displayMenu()
 {
     drawline(130, '-');
-    std::cout << "\t\t\t\t\t\t\tWelcome to our library";
+    std::cout << "\t\t\t\t\t\tWelcome to our library";
     std::cout << std::endl;
     std::cout << "\t\t\t\tSelection menu" << std::endl;
     std::cout << "1. Add new book to library" << std::endl;
@@ -45,26 +50,13 @@ int main(int argc, const char *argv[])
     MYSQL_RES *res = nullptr;
 
     connection_details MySQLData;
+
     MySQLData.database = "books";
     MySQLData.server = "localhost";
     MySQLData.user = "root";
     MySQLData.password = "";
 
-    HMODULE hModule = LoadLibraryA("bin/libmysql.dll");
-
-    if(hModule == nullptr)
-    {
-        std::cerr << "Failed to load library" << std::endl;
-        FreeLibrary(hModule);
-    }
-    AddFunctionPtr ptr = (AddFunctionPtr)GetProcAddress(hModule, "mysql_init");
-    if(!ptr)
-    {
-        std::cout << "Cannot find function" << std::endl;
-        FreeLibrary(hModule);
-    }
-    ptr(); // Try to load dll;
-
+    
 
     conn = mysql_connection_setup(MySQLData);
     if (!conn)
@@ -89,6 +81,7 @@ int main(int argc, const char *argv[])
         case 2:
             std::cout << "Goodbye! Catch you later" << std::endl;
             running = false;
+            system("cls");
             break;
         case 3:
             showAllBooks(res, conn, row);
@@ -107,6 +100,7 @@ int main(int argc, const char *argv[])
             char operator_return;
             std::cout << "Do you want to come back to the beginning (y/n): ";
             std::cin >> operator_return;
+            system("cls");
 
             if (operator_return == 'n')
             {
@@ -118,6 +112,4 @@ int main(int argc, const char *argv[])
 
     mysql_close(conn);
     return EXIT_SUCCESS;
-
-    FreeLibrary(hModule);
 }

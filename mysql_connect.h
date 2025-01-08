@@ -2,9 +2,10 @@
 #define MYSQL_CONNECT_H
 // main functions
 
-#include <mysql.h>
-#include <iostream>
 #include <windows.h>
+#include <mysql.h>
+
+
 
 struct connection_details
 {
@@ -19,6 +20,5 @@ void addBook(MYSQL *conn);
 void showAllBooks(MYSQL_RES *res, MYSQL *conn, MYSQL_ROW row);
 void takeBook(MYSQL *conn);
 void drawline(int x, char symbol);
-void LoadDLL(void (*FunctionType)()); // unused
 
 #endif

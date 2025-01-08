@@ -1,8 +1,15 @@
 #include "mysql_connect.h" // add header file
+
 #include <string>
+#include <iostream>
 #include <cstdio>
 #include <string>
+#include <Windows.h>
+#include <libloaderapi.h>
 #include <iomanip>
+
+typedef void (*MyFunction)();
+
 
 MYSQL* mysql_connection_setup(const connection_details &mylibrary_details)
 {

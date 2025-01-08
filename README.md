@@ -101,6 +101,8 @@ Use `CTRL + SHIFT + B` or `CTRL + SHIFT + P` -> Run Build Task
 }
 ```
 
+## ! Paths to MySQL Connector can be changed
+
 After configuring, you should be able to run `mysqlversion_vs.exe`:
 
 ```bash

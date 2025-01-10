@@ -1,5 +1,6 @@
 #include "mysql_connect.h" // add header file
 
+#include <algorithm>
 #include <string>
 #include <iostream>
 #include <cstdio>
@@ -7,9 +8,8 @@
 #include <Windows.h>
 #include <libloaderapi.h>
 #include <iomanip>
-
-typedef void (*MyFunction)();
-
+#include <cctype>
+#include <limits>
 
 MYSQL* mysql_connection_setup(const connection_details &mylibrary_details)
 {
@@ -39,13 +39,17 @@ void addBook(MYSQL *conn)
 
     std::cout << "Write shelf_number: ";
     std::cin >> shelf_number;
-    std::cin.ignore(); // Ignore remaining newline character
+
     std::cout << "Enter the name of the book: ";
-    std::getline(std::cin, book_name);
+    std::cin >> std::ws >> book_name;
+
     std::cout << "Enter the author of the book: ";
-    std::getline(std::cin, author_name_book);
+    std::cin >> std::ws >> author_name_book;
+ 
     std::cout << "Enter the datetime (YYYY-MM-DD): ";
-    std::getline(std::cin, datetime);
+    std::cin >> std::ws >> datetime;
+
+
 
     // Check if the book_id already exists in the table
     char check_query[256];
@@ -82,6 +86,7 @@ void addBook(MYSQL *conn)
     if (mysql_real_query(conn, parameter_table, strlen(parameter_table)) != 0)
     {
         std::cerr << "INSERT INTO library failed. Error: " << mysql_error(conn) << "\n";
+        std::exit(1);
     }
     else
     {

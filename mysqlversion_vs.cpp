@@ -11,11 +11,15 @@
 #include <winbase.h>
 #include "mysql_connect.h"
 
-#define DEBUG_MEMORY 0
 
-
-typedef void (*AddFunctionPtr)();
-  // Define a function pointer type for the function you want to load
+void clearScreen()
+{
+#ifdef _WIN32
+    std::system("cls"); // Windows
+#else
+    std::system("clear"); // Linux/Unix
+#endif
+}
 
 void drawline(int x, char symbol)
 {
@@ -42,7 +46,7 @@ void displayMenu()
 
 
 
-int main(int argc, const char *argv[])
+int main()
 {
     // For SQL
     MYSQL *conn = nullptr;
@@ -100,7 +104,7 @@ int main(int argc, const char *argv[])
             char operator_return;
             std::cout << "Do you want to come back to the beginning (y/n): ";
             std::cin >> operator_return;
-            system("cls");
+            clearScreen();
 
             if (operator_return == 'n')
             {

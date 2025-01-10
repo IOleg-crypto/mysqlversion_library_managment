@@ -4,8 +4,7 @@
 
 #include <windows.h>
 #include <mysql.h>
-
-
+#include <limits.h>
 
 struct connection_details
 {

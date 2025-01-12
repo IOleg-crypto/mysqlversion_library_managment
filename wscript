@@ -6,6 +6,8 @@
 Custom Waf script for building a MySQL-based C++ application.
 """
 
+import os , sys
+
 VERSION = "2.1.4"
 APPNAME = 'mysqlversion_vs'
 REVISION = ''
@@ -15,12 +17,32 @@ out = 'build_output'
 
 def configure(conf):
     """Set up the environment for building."""
-    # Set the output directory (optional)
+    directory = os.getcwd()  # Get the current working directory
+
+    # Print the current directory for debugging
+    print(f"Current directory: {directory}")
+
+    # Only check if running on Windows
+    if sys.platform.startswith('win'):
+        # On Windows, check for 'libmysql.dll' in the 'bin' folder
+        libmysql_path = os.path.join(directory, 'bin', 'libmysql.dll')
+        
+        # Debug output to ensure path is correct
+        print(f"Checking for {libmysql_path}...")
+
+        # Check if the file exists in the specified path
+        if os.path.exists(libmysql_path):
+            print(f"Library {libmysql_path} found in the directory (Windows).")
+        else:
+            print(f"Library {libmysql_path} not found in the directory (Windows).")
+    else:
+        print("This script is only intended for Windows.")
+
     conf.find_program('g++')
     conf.env['OUT'] = 'build_output'  # Output directory for compiled files
     # Set the C++ compiler (ensure MinGW path is correct)
     conf.env.CC = '/c/msys64/mingw64/bin/g++'
-
+   
     # Optionally, set C++ compiler flags
     conf.env.CXXFLAGS = ['-Wall', '-lmysql']  # Enable warnings for C++ and link with MySQL
     
@@ -33,7 +55,8 @@ def configure(conf):
     # Libraries to link against (MySQL client library)
     conf.env.LIB = ['mysql']  # Use `mysqlclient` for dynamic linking
     conf.env.LIB_MYSQL = ['mysqlclient']  # Name of the MySQL library (libmysql.dll or libmysql.so)
-    
+    conf.env.LIBPATH += ['./bin']  # Assuming the DLL is in ./bin
+
     # Load the C++ compiler
     conf.load('g++')
 

@@ -1,4 +1,17 @@
-#!/usr/bin/env python
+#! /usr/bin/env python
+# encoding: utf-8
+# Thomas Nagy, 2005-2018
+
+"""
+Custom Waf script for building a MySQL-based C++ application.
+"""
+
+VERSION = "2.1.4"
+APPNAME = 'mysqlversion_vs'
+REVISION = ''
+
+top = '.'
+out = 'build_output'
 
 def configure(conf):
     """Set up the environment for building."""
@@ -38,7 +51,7 @@ def build(bld):
         linkflags=['-L"C:/Program Files/MySQL/MySQL Server 8.0/lib"', '-lmysqlclient'],  # Link dynamic libraries
         env=bld.env,  # Ensure the environment variables are included
         use = ['mysql'],
-        cxxflags=['-std=c++17'],  # Опціональні прапорці для стандарту C++
+        cxxflags=['-std=c++17'],  # Flags for c++
     )
 
     # Additional compiler flags for debug or optimization

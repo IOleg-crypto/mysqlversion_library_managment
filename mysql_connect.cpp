@@ -1,6 +1,5 @@
 #include "mysql_connect.h" // add header file
 
-#include <algorithm>
 #include <string>
 #include <iostream>
 #include <cstdio>
@@ -8,8 +7,6 @@
 #include <Windows.h>
 #include <libloaderapi.h>
 #include <iomanip>
-#include <cctype>
-#include <limits>
 
 MYSQL* mysql_connection_setup(const connection_details &mylibrary_details)
 {
@@ -48,8 +45,6 @@ void addBook(MYSQL *conn)
  
     std::cout << "Enter the datetime (YYYY-MM-DD): ";
     std::cin >> std::ws >> datetime;
-
-
 
     // Check if the book_id already exists in the table
     char check_query[256];

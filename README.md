@@ -140,10 +140,10 @@ or
 
 ### WAF Build/Compile
 
-For building with WAF, refer to the official [WAF Documentation](https://waf.io/book/#_introduction).
+For building with WAF, refer to the official [WAF Documentation](https://waf.io/apidocs/index.html).
 
 **To install WAF:**
-- Visit the WAF [GitHub repository](https://github.com/ArduPilot/waf) for installation instructions.
+- Visit the WAF [GitLab repository](https://gitlab.com/ita1024/waf/blob/master/README.md#L20) for installation instructions.
 
 **To compile the project using WAF:**
 

@@ -146,10 +146,16 @@ For building with WAF, refer to the official [WAF Documentation](https://waf.io/
 
 - Visit the WAF [GitLab repository](https://gitlab.com/ita1024/waf/blob/master/README.md#L20) for installation instructions.
 
-**To compile the project using WAF:**
+**To compile the project using WAF(if you using Git Bash or Linux):**
 
 ```bash
 bash waf_script.sh
+```
+
+**If you using PowerShell:**
+
+```bash
+./build.ps1
 ```
 
 ### After Compiling the Project

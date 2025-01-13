@@ -58,9 +58,8 @@ int main()
     MySQLData.database = "books";
     MySQLData.server = "localhost";
     MySQLData.user = "root";
-    MySQLData.password = "";
+    MySQLData.password = NULL;
 
-    
 
     conn = mysql_connection_setup(MySQLData);
     if (!conn)

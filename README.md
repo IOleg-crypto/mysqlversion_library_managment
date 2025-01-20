@@ -136,6 +136,7 @@ or
    ```
 
 **Important:**
+
 - Ensure that `libmysql.dll` is in the same directory as the executable or in a directory included in the system PATH. Without `libmysql.dll`, the program will not start.
 
 ### WAF Build/Compile

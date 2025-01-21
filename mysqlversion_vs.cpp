@@ -68,50 +68,11 @@ int main()
         return EXIT_FAILURE;
     }
 
+    int commutator = 0;
+
     bool running = true;
-    while (running)
-    {
-        displayMenu();
 
-        int commutator;
-        std::cin >> commutator;
-
-        switch (commutator)
-        {
-        case 1:
-            addBook(conn);
-            break;
-        case 2:
-            std::cout << "Goodbye! Catch you later" << std::endl;
-            running = false;
-            system("cls");
-            break;
-        case 3:
-            showAllBooks(res, conn, row);
-            break;
-        case 4:
-            showAllBooks(res, conn, row);
-            takeBook(conn);
-            break;
-        default:
-            std::cout << "Invalid option. Please try again." << std::endl;
-            break;
-        }
-
-        if (running)
-        {
-            char operator_return;
-            std::cout << "Do you want to come back to the beginning (y/n): ";
-            std::cin >> operator_return;
-            clearScreen();
-
-            if (operator_return == 'n')
-            {
-                std::cout << "See you next time! Goodbye" << std::endl;
-                running = false;
-            }
-        }
-    }
+    runMYSQL(conn, res, row, displayMenu, clearScreen, commutator, running);
 
     mysql_close(conn);
     return EXIT_SUCCESS;

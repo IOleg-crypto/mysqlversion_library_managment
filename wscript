@@ -44,7 +44,7 @@ def configure(conf):
     conf.env.CC = '/c/msys64/mingw64/bin/g++'
    
     # Optionally, set C++ compiler flags
-    conf.env.CXXFLAGS = ['-Wall', '-lmysql']  # Enable warnings for C++ and link with MySQL
+    conf.env.CXXFLAGS = ['-Wall', '-lmysql' , '-DUSE_MYSQL_DLL']  # Enable warnings for C++ and link with MySQL
     
     # Include path for MySQL headers
     conf.env.INCLUDES = ['C:/Program Files/MySQL/MySQL Server 8.0/include']  # Using quotes for path with spaces

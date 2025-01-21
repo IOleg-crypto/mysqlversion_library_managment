@@ -42,51 +42,61 @@ void addBook(MYSQL *conn)
 
     std::cout << "Enter the author of the book: ";
     std::cin >> std::ws >> author_name_book;
- 
+
     std::cout << "Enter the datetime (YYYY-MM-DD): ";
     std::cin >> std::ws >> datetime;
 
-    // Check if the book_id already exists in the table
-    char check_query[256];
-    snprintf(check_query, sizeof(check_query), "SELECT * FROM library WHERE book_name = '%s'", book_name.c_str());
-
-    if (mysql_real_query(conn, check_query, strlen(check_query)) != 0)
+    // Используем подготовленный запрос для вставки
+    MYSQL_STMT *stmt = mysql_stmt_init(conn);
+    if (!stmt)
     {
-        std::cerr << "Check book_name failed. Error: " << mysql_error(conn) << "\n";
+        std::cerr << "mysql_stmt_init() failed. Error: " << mysql_error(conn) << "\n";
         return;
     }
 
-    MYSQL_RES *check_res = mysql_store_result(conn);
-    if (!check_res)
+    const char *query = "INSERT INTO library (shelf_number, book_name, author_name_book, TimeAddBook) VALUES (?, ?, ?, ?)";
+    if (mysql_stmt_prepare(stmt, query, strlen(query)) != 0)
     {
-        std::cerr << "Check book_name result failed. Error: " << mysql_error(conn) << "\n";
+        std::cerr << "mysql_stmt_prepare() failed. Error: " << mysql_stmt_error(stmt) << "\n";
+        mysql_stmt_close(stmt);
         return;
     }
 
-    MYSQL_ROW check_row = mysql_fetch_row(check_res);
-    if (check_row) // If a row exists, then the book already exists
+    MYSQL_BIND bind[4];
+    memset(bind, 0, sizeof(bind));
+
+    bind[0].buffer_type = MYSQL_TYPE_LONG;
+    bind[0].buffer = &shelf_number;
+
+    bind[1].buffer_type = MYSQL_TYPE_STRING;
+    bind[1].buffer = (void *)(book_name.c_str());
+    bind[1].buffer_length = book_name.size();
+
+    bind[2].buffer_type = MYSQL_TYPE_STRING;
+    bind[2].buffer = (void *)author_name_book.c_str();
+    bind[2].buffer_length = author_name_book.size();
+
+    bind[3].buffer_type = MYSQL_TYPE_STRING;
+    bind[3].buffer = (void *)datetime.c_str();
+    bind[3].buffer_length = datetime.size();
+
+    if (mysql_stmt_bind_param(stmt, bind) != 0)
     {
-        std::cout << "Book with the name \"" << book_name << "\" already exists. Please use a different name.\n";
-        mysql_free_result(check_res);
+        std::cerr << "mysql_stmt_bind_param() failed. Error: " << mysql_stmt_error(stmt) << "\n";
+        mysql_stmt_close(stmt);
         return;
     }
-    mysql_free_result(check_res);
 
-    // Proceed with insertion if the book_name does not exist
-    char parameter_table[512];
-    snprintf(parameter_table, sizeof(parameter_table),
-             "INSERT INTO library (shelf_number, book_name, author_name_book, TimeAddBook) VALUES (%d, '%s', '%s', '%s')",
-             shelf_number, book_name.c_str(), author_name_book.c_str(), datetime.c_str());
-
-    if (mysql_real_query(conn, parameter_table, strlen(parameter_table)) != 0)
+    if (mysql_stmt_execute(stmt) != 0)
     {
-        std::cerr << "INSERT INTO library failed. Error: " << mysql_error(conn) << "\n";
-        std::exit(1);
+        std::cerr << "INSERT INTO library failed. Error: " << mysql_stmt_error(stmt) << "\n";
     }
     else
     {
         std::cout << "Record inserted successfully.\n";
     }
+
+    mysql_stmt_close(stmt);
 }
 
 void showAllBooks(MYSQL_RES *res, MYSQL *conn, MYSQL_ROW row)
@@ -136,15 +146,93 @@ void takeBook(MYSQL *conn)
     std::cout << "Enter the ID of the book to take: ";
     std::cin >> book_id;
 
-    char query[256];
-    snprintf(query, sizeof(query), "DELETE FROM library WHERE id = %d", book_id); // Assuming the primary key column is 'id'
+    MYSQL_STMT *stmt;
+    const char *query = "DELETE FROM library WHERE name_id = ?";
+    stmt = mysql_stmt_init(conn);
 
-    if (mysql_real_query(conn, query, strlen(query)) != 0)
+    if (!stmt)
     {
-        std::cerr << "DELETE FROM library failed. Error: " << mysql_error(conn) << "\n";
+        std::cerr << "mysql_stmt_init() failed. Error: " << mysql_error(conn) << "\n";
+        return;
+    }
+
+    if (mysql_stmt_prepare(stmt, query, strlen(query)) != 0)
+    {
+        std::cerr << "mysql_stmt_prepare() failed. Error: " << mysql_stmt_error(stmt) << "\n";
+        mysql_stmt_close(stmt);
+        return;
+    }
+
+    MYSQL_BIND bind[1];
+    memset(bind, 0, sizeof(bind));
+
+    bind[0].buffer_type = MYSQL_TYPE_LONG;
+    bind[0].buffer = &book_id;
+    bind[0].is_null = 0;
+    bind[0].length = 0;
+
+    if (mysql_stmt_bind_param(stmt, bind) != 0)
+    {
+        std::cerr << "mysql_stmt_bind_param() failed. Error: " << mysql_stmt_error(stmt) << "\n";
+        mysql_stmt_close(stmt);
+        return;
+    }
+
+    if (mysql_stmt_execute(stmt) != 0)
+    {
+        std::cerr << "DELETE FROM library failed. Error: " << mysql_stmt_error(stmt) << "\n";
     }
     else
     {
         std::cout << "Book with ID " << book_id << " has been taken (deleted) successfully.\n";
+    }
+
+    mysql_stmt_close(stmt);
+}
+
+void runMYSQL(MYSQL* conn, MYSQL_RES* res, MYSQL_ROW row , void (*DisplayMenu)() , void (*clearScreen)() , int commutator , bool IsRunning)
+{
+
+    while (IsRunning)
+    {
+        DisplayMenu();
+
+        std::cin >> commutator;
+
+        switch (commutator)
+        {
+        case 1:
+            addBook(conn);
+            break;
+        case 2:
+            std::cout << "Goodbye! Catch you later" << std::endl;
+            IsRunning = false;
+            clearScreen();
+            break;
+        case 3:
+            showAllBooks(res, conn, row);
+            break;
+        case 4:
+            showAllBooks(res, conn, row);
+            takeBook(conn);
+            break;
+        default:
+            std::cout << "Invalid option. Please try again." << std::endl;
+            break;
+        }
+
+        if (IsRunning)
+        {
+            char operator_return;
+            std::cout << "Do you want to come back to the beginning (y/n): ";
+            std::cin >> operator_return;
+            clearScreen();
+
+            if (operator_return == 'n')
+            {
+                std::cout << "See you next time! Goodbye" << std::endl;
+                IsRunning = false;
+            }
+        }
     }
 }

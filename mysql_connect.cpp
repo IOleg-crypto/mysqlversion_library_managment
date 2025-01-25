@@ -46,7 +46,6 @@ void addBook(MYSQL *conn)
     std::cout << "Enter the datetime (YYYY-MM-DD): ";
     std::cin >> std::ws >> datetime;
 
-    // Используем подготовленный запрос для вставки
     MYSQL_STMT *stmt = mysql_stmt_init(conn);
     if (!stmt)
     {
@@ -146,48 +145,17 @@ void takeBook(MYSQL *conn)
     std::cout << "Enter the ID of the book to take: ";
     std::cin >> book_id;
 
-    MYSQL_STMT *stmt;
-    const char *query = "DELETE FROM library WHERE name_id = ?";
-    stmt = mysql_stmt_init(conn);
+    char query[256];
+    snprintf(query, sizeof(query), "DELETE FROM library WHERE name_id = %d", book_id); // Assuming the primary key column is 'id'
 
-    if (!stmt)
+    if (mysql_real_query(conn, query, strlen(query)) != 0)
     {
-        std::cerr << "mysql_stmt_init() failed. Error: " << mysql_error(conn) << "\n";
-        return;
-    }
-
-    if (mysql_stmt_prepare(stmt, query, strlen(query)) != 0)
-    {
-        std::cerr << "mysql_stmt_prepare() failed. Error: " << mysql_stmt_error(stmt) << "\n";
-        mysql_stmt_close(stmt);
-        return;
-    }
-
-    MYSQL_BIND bind[1];
-    memset(bind, 0, sizeof(bind));
-
-    bind[0].buffer_type = MYSQL_TYPE_LONG;
-    bind[0].buffer = &book_id;
-    bind[0].is_null = 0;
-    bind[0].length = 0;
-
-    if (mysql_stmt_bind_param(stmt, bind) != 0)
-    {
-        std::cerr << "mysql_stmt_bind_param() failed. Error: " << mysql_stmt_error(stmt) << "\n";
-        mysql_stmt_close(stmt);
-        return;
-    }
-
-    if (mysql_stmt_execute(stmt) != 0)
-    {
-        std::cerr << "DELETE FROM library failed. Error: " << mysql_stmt_error(stmt) << "\n";
+        std::cerr << "DELETE FROM library failed. Error: " << mysql_error(conn) << "\n";
     }
     else
     {
         std::cout << "Book with ID " << book_id << " has been taken (deleted) successfully.\n";
     }
-
-    mysql_stmt_close(stmt);
 }
 
 void runMYSQL(MYSQL* conn, MYSQL_RES* res, MYSQL_ROW row , void (*DisplayMenu)() , void (*clearScreen)() , int commutator , bool IsRunning)

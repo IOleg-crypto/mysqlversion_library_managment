@@ -48,6 +48,9 @@ void displayMenu()
 
 int main()
 {
+#ifdef DEBUG_TIME
+    auto start = std::chrono::high_resolution_clock::now();
+#endif
     // For SQL
     MYSQL *conn = nullptr;
     MYSQL_ROW row = NULL;
@@ -73,7 +76,11 @@ int main()
     bool running = true;
 
     runMYSQL(conn, res, row, displayMenu, clearScreen, commutator, running);
-
+#ifdef DEBUG_TIME
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    std::cout << "Duration: " << duration.count() << "ms" << std::endl;
+#endif
     mysql_close(conn);
     return EXIT_SUCCESS;
 }

@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 # encoding: utf-8
-# Thomas Nagy, 2005-2018
+# I#Oleg
 
 """
 Custom Waf script for building a MySQL-based C++ application.
@@ -14,6 +14,9 @@ REVISION = ''
 
 top = '.'
 out = 'build_output'
+
+def options(opt):
+    opt.add_option('--debug', action='store_true', help='Show debug time', default=False)
 
 def configure(conf):
     """Set up the environment for building."""
@@ -44,7 +47,7 @@ def configure(conf):
     conf.env.CC = '/c/msys64/mingw64/bin/g++'
    
     # Optionally, set C++ compiler flags
-    conf.env.CXXFLAGS = ['-Wall', '-lmysql' , '-DUSE_MYSQL_DLL']  # Enable warnings for C++ and link with MySQL
+    conf.env.CXXFLAGS = ['-Wall', '-lmysql']  # Enable warnings for C++ and link with MySQL
     
     # Include path for MySQL headers
     conf.env.INCLUDES = ['C:/Program Files/MySQL/MySQL Server 8.0/include']  # Using quotes for path with spaces
@@ -57,13 +60,14 @@ def configure(conf):
     conf.env.LIB_MYSQL = ['mysqlclient']  # Name of the MySQL library (libmysql.dll or libmysql.so)
     conf.env.LIBPATH += ['./bin']  # Assuming the DLL is in ./bin
 
+    if conf.options.debug:
+        conf.env.CXXFLAGS += ['-g', '-DDEBUG_TIME']
+
     # Load the C++ compiler
     conf.load('g++')
 
 
 def build(bld):
-    """Define the build process."""
-    # Specify the output directory and source files
 
     bld.program(
         target='main',  # Output binary name
@@ -77,11 +81,7 @@ def build(bld):
         cxxflags=['-std=c++17'],  # Flags for c++
     )
 
-    # Additional compiler flags for debug or optimization
-    if bld.env['DEBUG']:
-        bld.env.CXXFLAGS.append('-g')  # Include debug symbols for debugging
-    else:
-        bld.env.CXXFLAGS.append('-O2')  # Optimize the build for release
+    
 
 def post_build(bld):
     """Run after the build process (e.g., for post-processing or testing)."""

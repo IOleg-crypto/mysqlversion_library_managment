@@ -8,7 +8,6 @@
 #include <chrono>
 #endif
 
-
 #include <mysql.h>
 #include <limits.h>
 
@@ -26,7 +25,7 @@ void addBook(MYSQL *conn);
 void showAllBooks(MYSQL_RES *res, MYSQL *conn, MYSQL_ROW row);
 void takeBook(MYSQL *conn);
 void drawline(int x, char symbol);
-void runMYSQL(MYSQL* conn, MYSQL_RES* res, MYSQL_ROW row , void (*DisplayMenu)() , void (*clearScreen)() , int commutator , bool IsRunning);
+void runMYSQL(MYSQL* conn, MYSQL_RES* res, MYSQL_ROW row , void (*DisplayMenu)() , void (*clearScreen)() , int choice , bool IsRunning);
 
 
 #endif // MYSQL_CONNECT_H

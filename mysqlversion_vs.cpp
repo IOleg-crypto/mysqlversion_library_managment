@@ -1,16 +1,9 @@
 // mysqlversion_vs.cpp : This file contains the 'main' function. Program execution begins and ends there.
 
-#include <cstdlib>
-#include <iostream>
-#include <cstdio>
-// loading sql library
-
-#include <Windows.h>
-#include <libloaderapi.h>
-#include <processenv.h>
-#include <winbase.h>
 #include "mysql_connect.h"
 
+#include <iostream>
+#include <memory>
 
 void clearScreen()
 {
@@ -51,18 +44,15 @@ int main()
 #ifdef DEBUG_TIME
     auto start = std::chrono::high_resolution_clock::now();
 #endif
-    // For SQL
     MYSQL *conn = nullptr;
     MYSQL_ROW row = NULL;
     MYSQL_RES *res = nullptr;
 
-    connection_details MySQLData;
+    int choice = 0;
 
-    MySQLData.database = "books";
-    MySQLData.server = "localhost";
-    MySQLData.user = "root";
-    MySQLData.password = NULL;
+    bool running = true;
 
+    connection_details MySQLData {"localhost" , "root" , NULL , "books"};
 
     conn = mysql_connection_setup(MySQLData);
     if (!conn)
@@ -70,12 +60,7 @@ int main()
         std::cerr << "Connection to database failed. Error: " << mysql_error(conn) << "\n";
         return EXIT_FAILURE;
     }
-
-    int commutator = 0;
-
-    bool running = true;
-
-    runMYSQL(conn, res, row, displayMenu, clearScreen, commutator, running);
+    runMYSQL(conn, res, row, displayMenu, clearScreen, choice, running);
 #ifdef DEBUG_TIME
     auto end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);

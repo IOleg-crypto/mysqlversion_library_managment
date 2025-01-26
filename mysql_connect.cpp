@@ -158,16 +158,16 @@ void takeBook(MYSQL *conn)
     }
 }
 
-void runMYSQL(MYSQL* conn, MYSQL_RES* res, MYSQL_ROW row , void (*DisplayMenu)() , void (*clearScreen)() , int commutator , bool IsRunning)
+void runMYSQL(MYSQL* conn, MYSQL_RES* res, MYSQL_ROW row , void (*DisplayMenu)() , void (*clearScreen)() , int choice , bool IsRunning)
 {
 
     while (IsRunning)
     {
         DisplayMenu();
 
-        std::cin >> commutator;
+        std::cin >> choice;
 
-        switch (commutator)
+        switch (choice)
         {
         case 1:
             addBook(conn);

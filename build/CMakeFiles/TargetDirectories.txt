@@ -1,3 +1,0 @@
-D:/gitnext/mysqlversion_vs/build/CMakeFiles/MySQLLibrary.dir
-D:/gitnext/mysqlversion_vs/build/CMakeFiles/ALL_BUILD.dir
-D:/gitnext/mysqlversion_vs/build/CMakeFiles/ZERO_CHECK.dir

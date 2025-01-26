@@ -20,7 +20,6 @@ This project demonstrates how to connect to a MySQL database using C++ and the M
 - **C++ Compiler** (e.g., `g++` from MinGW or MSYS2 on Windows)
 - **MySQL Server**
 - **MySQL Connector/C++ libraries**
-- **CMake** (optional, for build system)
 - **Visual Studio Code** (optional, for code editing and task management)
 - **Windows Terminal** (optional, for running commands)
 
@@ -114,26 +113,6 @@ or
 ```bash
 ./mysqlversion_vs.exe
 ```
-
-### CMake
-
-**To compile with CMake:**
-
-1. Open your terminal and navigate to the project directory:
-   ```bash
-   cd mysqlversion_vs
-   ```
-
-2. Run CMake to generate build files:
-   ```bash
-   cmake .
-   ```
-
-3. Create a build directory and compile:
-   ```bash
-   cd build
-   make
-   ```
 
 **Important:**
 

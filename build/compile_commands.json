@@ -1,8 +1,0 @@
-[
-{
-  "directory": "D:/gitnext/mysqlversion_vs/build",
-  "command": "C:/msys64/mingw64/bin/c++.exe  @CMakeFiles/MySQLLibrary.dir/includes_CXX.rsp -g -o CMakeFiles/MySQLLibrary.dir/mysqlversion_vs.cpp.obj -c D:/gitnext/mysqlversion_vs/mysqlversion_vs.cpp",
-  "file": "D:/gitnext/mysqlversion_vs/mysqlversion_vs.cpp",
-  "output": "CMakeFiles/MySQLLibrary.dir/mysqlversion_vs.cpp.obj"
-}
-]

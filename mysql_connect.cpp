@@ -4,9 +4,6 @@
 #include <iostream>
 #include <cstdio>
 #include <string>
-#include <Windows.h>
-#include <libloaderapi.h>
-#include <iomanip>
 
 MYSQL* mysql_connection_setup(const connection_details &mylibrary_details)
 {
